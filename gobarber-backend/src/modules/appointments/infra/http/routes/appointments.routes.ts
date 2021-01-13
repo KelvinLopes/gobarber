@@ -7,9 +7,9 @@ import AppointmentsCrontroller from '../controllers/AppointmentsController';
 
 
 const appointmentsRouter = Router();
-appointmentsRouter.use(ensureAuthenticated);
-
 const appointmentsController = new AppointmentsCrontroller();
+
+appointmentsRouter.use(ensureAuthenticated);
 
 appointmentsRouter.post('/',appointmentsController.create);
 
