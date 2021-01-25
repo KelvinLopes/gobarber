@@ -13,4 +13,5 @@ appointmentsRouter.use(ensureAuthenticated);
 
 appointmentsRouter.post('/',appointmentsController.create);
 
+
 export default appointmentsRouter;
