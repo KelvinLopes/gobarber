@@ -2,7 +2,9 @@ node_modules
 Features Map.md
 tmp/
 temp/
-
+.env
+coverage
+ormconfig.json
 tmp/*
 
 !tmp/.gitkeep
