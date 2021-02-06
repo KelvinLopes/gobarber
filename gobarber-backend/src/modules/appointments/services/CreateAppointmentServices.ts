@@ -9,9 +9,9 @@ from '@modules/notifications/repositories/INotificationsRepository';
 
 
 interface IRequest {
+  date: Date;
   provider_id: string;
   user_id: string;
-  date: Date;
 }
 
 @injectable()
@@ -53,7 +53,7 @@ class CreateAppointmentService {
         date: appointmentDate,
       });
 
-      const dateFormatted = format(appointmentDate,"dd/MM/yyyy 'ás' HH:mm' h'");
+      const dateFormatted = format(appointment.date, "dd/MM/yyyy 'ás' HH:mm'h'");
 
       await this.notificationsRepository.create({
         recipient_id: provider_id,
