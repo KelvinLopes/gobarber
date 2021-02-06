@@ -2,28 +2,47 @@ import { injectable, inject } from 'tsyringe';
 
 import { classToClass } from 'class-transformer';
 
+import ICacheProvider
+  from '@shared/container/providers/CacheProvider/models/ICacheProvider';
+
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 
 import User from '@modules/users/infra/typeorm/entities/User';
 
 interface IRequest {
- user_id: string;
+  user_id: string;
 }
 
 @injectable()
 class ListProviderService {
-  constructor (
+  constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
-    ) {}
 
-  public async execute({user_id} :IRequest) : Promise<User[]> {
+    @inject('CacheProvider')
+    private cacheProvider: ICacheProvider,
+  ) { }
 
-    const user = await this.usersRepository.findAllProviders({
-      except_user_id: user_id,
-    });
+  public async execute({ user_id }: IRequest): Promise<User[]> {
+    let users = await this.cacheProvider.recovery<User[]>(
+      `providers-list:${user_id}`,
+    );
 
-    return classToClass(user);
+
+    if (!users) {
+      users = await this.usersRepository.findAllProviders({
+        except_user_id: user_id,
+      });
+
+      console.log('A query no banco foi feita');
+
+      await this.cacheProvider.save(`
+    providers-list:${user_id}`,
+        classToClass(users)
+      );
+    }
+
+    return classToClass(users);
   }
 }
 
