@@ -3,11 +3,11 @@ import { injectable, inject } from 'tsyringe';
 import { classToClass } from 'class-transformer';
 
 import ICacheProvider
-  from '@shared/container/providers/CacheProvider/models/ICacheProvider';
-
-import IUsersRepository from '@modules/users/repositories/IUsersRepository';
+from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 
 import User from '@modules/users/infra/typeorm/entities/User';
+import IUsersRepository from '@modules/users/repositories/IUsersRepository';
+
 
 interface IRequest {
   user_id: string;
@@ -24,7 +24,7 @@ class ListProviderService {
   ) { }
 
   public async execute({ user_id }: IRequest): Promise<User[]> {
-    let users = await this.cacheProvider.recovery<User[]>(
+    let users = await this.cacheProvider.recover<User[]>(
       `providers-list:${user_id}`,
     );
 
@@ -34,11 +34,11 @@ class ListProviderService {
         except_user_id: user_id,
       });
 
-      console.log('A query no banco foi feita');
+      console.log('A query no banco foi feita!');
 
-      await this.cacheProvider.save(`
-    providers-list:${user_id}`,
-        classToClass(users)
+      await this.cacheProvider.save(
+        `providers-list:${user_id}`,
+        users
       );
     }
 
