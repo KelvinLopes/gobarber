@@ -1,4 +1,5 @@
-// import AppError from '@shared/errors/AppError';
+import FakeCacheProvider
+from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
 
 import FakeAppointmentsRepository
 from '../repositories/fakes/FakeAppointmentsRepository';
@@ -7,6 +8,7 @@ import ListProviderAppointmentsService
 from './ListProviderAppointmentsService';
 
 let fakeAppintementsRepository: FakeAppointmentsRepository;
+let fakeCacheProvider: FakeCacheProvider;
 let listProviderAppointments: ListProviderAppointmentsService;
 
 describe('ListProviderAppointments', () => {
@@ -14,6 +16,7 @@ describe('ListProviderAppointments', () => {
     fakeAppintementsRepository = new FakeAppointmentsRepository();
     listProviderAppointments = new ListProviderAppointmentsService(
       fakeAppintementsRepository,
+      fakeCacheProvider,
     );
   });
 
