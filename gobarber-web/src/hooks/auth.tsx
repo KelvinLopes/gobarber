@@ -1,9 +1,15 @@
 import React, { createContext, useCallback, useContext, useState } from 'react';
 import api from '../services/api';
 
+interface User {
+  id: string;
+  name: string;
+  avatar_url: string;
+}
+
 interface AuthState {
   token: string;
-  userWithoutPassword: object;
+  user: User;
 }
 
 interface SignInCredentials {
@@ -12,7 +18,7 @@ interface SignInCredentials {
 }
 
 interface AuthContextData {
-  userWithoutPassword: object;
+  user: User;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
 }
@@ -22,10 +28,10 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 export const AuthProvider: React.FC = ({ children }) => {
   const [data, setData] = useState<AuthState>(() => {
     const token = localStorage.getItem('@GoBarber:token');
-    const userWithoutPassword = localStorage.getItem('@GoBarber:user');
+    const user = localStorage.getItem('@GoBarber:user');
 
-    if (token && userWithoutPassword) {
-      return { token, userWithoutPassword: JSON.parse(userWithoutPassword) };
+    if (token && user) {
+      return { token, user: JSON.parse(user) };
     }
 
     return {} as AuthState;
@@ -37,12 +43,12 @@ export const AuthProvider: React.FC = ({ children }) => {
       password,
     });
 
-    const { token, userWithoutPassword } = response.data;
+    const { token, user } = response.data;
 
     localStorage.setItem('@GoBarber:token', token);
-    localStorage.setItem('@GoBarber:user', JSON.stringify(userWithoutPassword));
+    localStorage.setItem('@GoBarber:user', JSON.stringify(user));
 
-    setData({ token, userWithoutPassword });
+    setData({ token, user });
   }, []);
 
   const signOut = useCallback(() => {
@@ -55,7 +61,7 @@ export const AuthProvider: React.FC = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
-        userWithoutPassword: data.userWithoutPassword,
+        user: data.user,
         signIn,
         signOut,
       }}
