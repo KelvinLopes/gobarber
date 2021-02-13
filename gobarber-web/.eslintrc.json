@@ -37,6 +37,7 @@
     "camelcase": "off",
     "@typescript-eslint/ban-types": "off",
     " @typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/camelcase": "off",
     "prettier/prettier": "error",
     "no-use-before-define": "off",
     "no-unused-vars": "off",
