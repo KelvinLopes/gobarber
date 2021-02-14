@@ -1,12 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { FiPower } from 'react-icons/fi';
-import { Container, Header, HeaderContent, Profile } from './styles';
+import { FiClock, FiPower } from 'react-icons/fi';
+import {
+  Container,
+  Header,
+  HeaderContent,
+  Profile,
+  Content,
+  Schedule,
+  NextAppointment,
+  Section,
+  Appointment,
+  Calendar,
+} from './styles';
 
 import logoImg from '../../assets/logo.svg';
 import { useAuth } from '../../hooks/auth';
 
 const Dashboard: React.FC = () => {
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const { signOut, user } = useAuth();
 
   return (
@@ -28,6 +40,89 @@ const Dashboard: React.FC = () => {
           </button>
         </HeaderContent>
       </Header>
+
+      <Content>
+        <Schedule>
+          <h1>Horários agendados</h1>
+          <p>
+            <span>Hoje</span>
+            <span>Dia 06</span>
+            <span>Segunda-feira</span>
+          </p>
+
+          <NextAppointment>
+            <strong>Atendimento a seguir</strong>
+            <div>
+              <img
+                src="https://avatars.githubusercontent.com/u/38872754?s=460&u=5a703d160eb906c979e8c5620cd642db3747e075&v=4"
+                alt="Kelvin Lopes"
+              />
+              <strong>Kelvin Lopes</strong>
+              <span>
+                <FiClock />
+                08:00
+              </span>
+            </div>
+          </NextAppointment>
+
+          <Section>
+            <strong>Manhã</strong>
+
+            <Appointment>
+              <span>
+                <FiClock />
+                08:00
+              </span>
+
+              <div>
+                <img
+                  src="https://avatars.githubusercontent.com/u/38872754?s=460&u=5a703d160eb906c979e8c5620cd642db3747e075&v=4"
+                  alt="Kelvin Lopes"
+                />
+
+                <strong>Kelvin Lopes</strong>
+              </div>
+            </Appointment>
+
+            <Appointment>
+              <span>
+                <FiClock />
+                08:00
+              </span>
+
+              <div>
+                <img
+                  src="https://avatars.githubusercontent.com/u/38872754?s=460&u=5a703d160eb906c979e8c5620cd642db3747e075&v=4"
+                  alt="Kelvin Lopes"
+                />
+
+                <strong>Kelvin Lopes</strong>
+              </div>
+            </Appointment>
+          </Section>
+
+          <Section>
+            <strong>Tarde</strong>
+
+            <Appointment>
+              <span>
+                <FiClock />
+                08:00
+              </span>
+
+              <div>
+                <img
+                  src="https://avatars.githubusercontent.com/u/38872754?s=460&u=5a703d160eb906c979e8c5620cd642db3747e075&v=4"
+                  alt="Kelvin Lopes"
+                />
+
+                <strong>Kelvin Lopes</strong>
+              </div>
+            </Appointment>
+          </Section>
+        </Schedule>
+        <Calendar />
+      </Content>
     </Container>
   );
 };
