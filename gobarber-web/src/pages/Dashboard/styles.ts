@@ -136,7 +136,7 @@ export const NextAppointment = styled.div`
     }
 
     span {
-      margin-left: 24px;
+      margin-left: auto;
       display: flex;
       align-items: center;
       color: #999591;
@@ -160,6 +160,10 @@ export const Section = styled.section`
     display: block;
     padding-bottom: 16px;
     margin-bottom: 16px;
+  }
+
+  > p {
+    color: #999591;
   }
 `;
 
